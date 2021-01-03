@@ -1,3 +1,13 @@
+/*
+ * Copyright © 2021 NeuroByte Tech. All rights reserved.
+ *
+ * NeuroByte Tech is the Developer Company of Rohan Mathew.
+ *
+ * Project: calchaSolve
+ * File Name: gcd.go
+ * Last Modified: 03/01/2021, 11:06
+ */
+
 package solv
 
 // Uses Euclid's GCD algorithm to calculate HCF between two numbers faster than brute-forcing every number in

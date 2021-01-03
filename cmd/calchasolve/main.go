@@ -1,3 +1,13 @@
+/*
+ * Copyright © 2021 NeuroByte Tech. All rights reserved.
+ *
+ * NeuroByte Tech is the Developer Company of Rohan Mathew.
+ *
+ * Project: calchaSolve
+ * File Name: main.go
+ * Last Modified: 03/01/2021, 11:06
+ */
+
 package main
 
 import (
@@ -102,7 +112,6 @@ func main() {
 			}
 			f.Close()
 		}
-
 
 		rsp.Body.Close()
 		// Next iter if repeat
