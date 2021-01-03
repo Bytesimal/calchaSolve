@@ -5,7 +5,7 @@
  *
  * Project: calchaSolve
  * File Name: main.go
- * Last Modified: 03/01/2021, 11:06
+ * Last Modified: 03/01/2021, 14:19
  */
 
 package main
@@ -83,7 +83,7 @@ func main() {
 
 		// solve
 		solution := solv.GCD(n1, n2)
-		log.Printf("%10d and %10d : Solution: %10d\n", n1, n2, solv.GCD(n1, n2))
+		log.Printf("n1: %10d and n2: %10d | Solution: %d\n", n1, n2, solution)
 
 		// POST solutions
 		rq, _ := http.NewRequest("POST", submitURL, strings.NewReader(
