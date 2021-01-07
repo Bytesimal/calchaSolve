@@ -11,6 +11,16 @@ This is my implementation of such a program. It has been developed and tested on
 with most past and future versions.
 
 ### Installation
+
 - To build the binary, run `go build -i ./cmd/calchasolve`
 - To learn about the args run `./calchasolve -h`
 - Then run the binary with `./calchasolve` with the desired flags
+
+It is possible when specifing the `-l` flag to use time prefixes such as s, ms, us/µs and ns
+
+Typical run examples:
+
+- `./calchaSolve -l 1s -r -s`
+- `./calchaSolve -l 50µs -r`
+- `./calchaSolve -l 4m -s`
+- `./calchaSolve`

@@ -5,7 +5,7 @@
  *
  * Project: calchaSolve
  * File Name: main.go
- * Last Modified: 03/01/2021, 14:19
+ * Last Modified: 07/01/2021, 09:31
  */
 
 package main
@@ -24,6 +24,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const quizURL = "https://quantbet.com/quiz/dev"
@@ -31,6 +32,7 @@ const submitURL = "https://quantbet.com/submit"
 
 var repeat bool
 var saveSolutions bool
+var rateLimit time.Duration
 
 //var debugProxy, _ = url.Parse("http://localhost:9090")
 var cli = &http.Client{
@@ -41,8 +43,10 @@ var cli = &http.Client{
 var urlObj, _ = url.Parse("https://quantbet.com")
 
 func init() {
+	// flag parse
 	flag.BoolVar(&repeat, "r", false, "controls if the program should repeatedly solve new calcas.")
 	flag.BoolVar(&saveSolutions, "s", false, "if true, saves all returned solution pages in a temp dir")
+	flag.DurationVar(&rateLimit, "l", 1, "time between each calcha solve")
 	flag.Parse()
 
 	// init tmp dir
@@ -56,6 +60,8 @@ func init() {
 }
 
 func main() {
+	t := time.NewTicker(rateLimit)
+
 	for {
 		// rq and parse html
 		rsp, err := cli.Get(quizURL)
@@ -118,5 +124,8 @@ func main() {
 		if !repeat {
 			break
 		}
+
+		// Rate limit
+		<-t.C
 	}
 }
