@@ -10,6 +10,15 @@ since it is designed to be too complex for the majority of humans.
 This is my implementation of such a program. It has been developed and tested on `go1.15.6` but it should be compatible
 with most past and future versions.
 
+### Reason for using Go
+
+Go is my favourite language since it makes things very concise. I feel that it solves many of the problems plaguing
+other, possibly more popular languages such as redundant imports, builtin code testing/benchmarking and readability.
+
+Go also has a good low-level `http` package which gives great control over the processing of network requests
+efficiently. Also, the static typing and compilation gives increased performance, though that may not be necessary for
+this puzzle.
+
 ### Installation
 
 - To build the binary, run `go build -i ./cmd/calchasolve`
