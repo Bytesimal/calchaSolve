@@ -3,9 +3,9 @@
  *
  * NeuroByte Tech is the Developer Company of Rohan Mathew.
  *
- * Project: calchaSolve
+ * Project: qbCalchaSolve
  * File Name: main.go
- * Last Modified: 07/01/2021, 09:31
+ * Last Modified: 21/01/2021, 08:53
  */
 
 package main
@@ -15,6 +15,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/Bytesimal/goutils/pkg/fileio"
+	"github.com/Bytesimal/goutils/pkg/httputil"
 	"github.com/PuerkitoBio/goquery"
 	"io"
 	"log"
@@ -34,13 +35,12 @@ var repeat bool
 var saveSolutions bool
 var rateLimit time.Duration
 
-//var debugProxy, _ = url.Parse("http://localhost:9090")
+var debugProxy, _ = url.Parse("http://localhost:9090")
 var cli = &http.Client{
 	Transport: &http.Transport{
-		//Proxy: http.ProxyURL(debugProxy),
+		Proxy: http.ProxyURL(debugProxy),
 	},
 }
-var urlObj, _ = url.Parse("https://quantbet.com")
 
 func init() {
 	// flag parse
@@ -64,7 +64,9 @@ func main() {
 
 	for {
 		// rq and parse html
-		rsp, err := cli.Get(quizURL)
+		rq, _ := http.NewRequest("GET", quizURL, nil)
+		rq.Header.Set("User-Agent", httputil.RandUA())
+		rsp, err := cli.Do(rq)
 		if err != nil {
 			log.Fatalf("can't request calcha page: %s", err)
 		}
@@ -73,9 +75,6 @@ func main() {
 			log.Fatalf("can't parse html: %s", err)
 		}
 		rsp.Body.Close()
-
-		// Add cookies e.g. for laravel
-		cli.Jar.SetCookies(urlObj, rsp.Cookies())
 
 		// Parse n1 and n2
 		n1, err := strconv.ParseInt(page.Find("form#quiz > p > strong").Get(0).FirstChild.Data, 10, 64)
@@ -92,8 +91,9 @@ func main() {
 		log.Printf("n1: %10d and n2: %10d | Solution: %d\n", n1, n2, solution)
 
 		// POST solutions
-		rq, _ := http.NewRequest("POST", submitURL, strings.NewReader(
+		rq, _ = http.NewRequest("POST", submitURL, strings.NewReader(
 			fmt.Sprintf("divisor=%d", solution)))
+		rq.Header.Set("User-Agent", httputil.RandUA())
 		rq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 		rq.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		rsp, err = cli.Do(rq)
